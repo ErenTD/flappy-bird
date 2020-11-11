@@ -118,6 +118,11 @@ new_high = False
 # Assets
 game_font = pygame.font.Font(assets.font,20)
 
+pygame.display.set_caption('Flappy Bird')
+icon = pygame.image.load(assets.favicon)
+icon.set_colorkey((0,255,0))
+pygame.display.set_icon(icon)
+
 bg_surface = pygame.image.load(assets.background).convert()
 
 floor_surface = pygame.image.load(assets.base).convert()

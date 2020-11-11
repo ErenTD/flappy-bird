@@ -22,6 +22,8 @@ base = 'assets/sprites/base.png'
 gameover = 'assets/sprites/gameover.png'
 newbest = 'assets/sprites/new.png'
 
+favicon = 'assets/favicon.ico'
+
 medals = {	'none': 'assets/sprites/medalscreen-none.png',
 			'bronze': 'assets/sprites/medalscreen-bronze.png',
 			'silver': 'assets/sprites/medalscreen-silver.png',

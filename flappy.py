@@ -35,7 +35,11 @@ def check_collision(pipes):
 			death_sound.play()
 			can_score = True
 			return False
-	if bird_rect.top <= -50 or bird_rect.bottom >= 450:
+	if bird_rect.bottom >= 450:
+		death_sound.play()
+		can_score = True
+		return False
+	if bird_rect.top <= -50 and 45 < pipe.centerx < 55:
 		death_sound.play()
 		can_score = True
 		return False

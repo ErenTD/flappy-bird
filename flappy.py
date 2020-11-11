@@ -29,19 +29,25 @@ def draw_pipes(pipes):
 			screen.blit(flip_pipe,pipe)
 
 def check_collision(pipes):
-	global can_score
+	global can_score, is_dead
 	for pipe in pipes:
 		if bird_rect.colliderect(pipe):
-			death_sound.play()
+			hit_sound.play()
+			die_sound.play()
 			can_score = True
+			is_dead = True
 			return False
 	if bird_rect.bottom >= 450:
-		death_sound.play()
+		hit_sound.play()
+		die_sound.play()
 		can_score = True
+		is_dead = True
 		return False
 	if bird_rect.top <= -50 and 45 < pipe.centerx < 55:
-		death_sound.play()
+		hit_sound.play()
+		die_sound.play()
 		can_score = True
+		is_dead = True
 		return False
 	return True
 
@@ -60,6 +66,7 @@ def score_display(game_state):
 		score_rect = score_surface.get_rect(center = (144,50))
 		screen.blit(score_surface,score_rect)
 	if game_state == 'game_over':
+		# TODO: Better game over screen
 		score_surface = game_font.render(f'Score: {int(score)}',True,(255,255,255))
 		score_rect = score_surface.get_rect(center = (144,50))
 		screen.blit(score_surface,score_rect)
@@ -96,11 +103,12 @@ game_active = True
 score = 0
 high_score = 0
 can_score = True
+is_dead = False
 
 # Assets
 game_font = pygame.font.Font(assets.font,20)
 
-bg_surface = pygame.image.load(assets.background).convert_alpha()
+bg_surface = pygame.image.load(assets.background).convert()
 
 floor_surface = pygame.image.load(assets.base).convert()
 floor_x_pos = 0
@@ -121,12 +129,17 @@ SPAWNPIPE = pygame.USEREVENT
 pygame.time.set_timer(SPAWNPIPE,config.PIPE_SPAWN_INTERVAL)
 pipe_height = config.PIPE_SPAWN_LOCATIONS
 
-game_over_surface = pygame.image.load(assets.message).convert_alpha()
+game_over_surface = pygame.image.load(assets.gameover).convert_alpha()
 game_over_rect = game_over_surface.get_rect(center = (144,256))
 
+game_start_surface = pygame.image.load(assets.message).convert_alpha()
+game_start_rect = game_start_surface.get_rect(center = (144,256))
+
 flap_sound = pygame.mixer.Sound(assets.sounds['wing'])
-death_sound = pygame.mixer.Sound(assets.sounds['hit'])
+hit_sound = pygame.mixer.Sound(assets.sounds['hit'])
 score_sound = pygame.mixer.Sound(assets.sounds['point'])
+swoosh_sound = pygame.mixer.Sound(assets.sounds['swoosh'])
+die_sound = pygame.mixer.Sound(assets.sounds['die'])
 
 # Game loop
 while True:
@@ -140,12 +153,15 @@ while True:
 				bird_movement = 0
 				bird_movement -= config.BIRD_JUMP_STRENGTH
 				flap_sound.play()
-			if event.key == pygame.K_SPACE and game_active == False:
+			if event.key == pygame.K_SPACE and game_active == False and is_dead == False:
 				game_active = True
 				pipe_list.clear()
 				bird_rect.center = (50,256)
 				bird_movement = 0
 				score = 0
+			if event.key == pygame.K_SPACE and game_active == False and is_dead:
+				is_dead = False
+				swoosh_sound.play()
 		if event.type == SPAWNPIPE:
 			pipe_list.extend(create_pipe())
 		if event.type == BIRDFLAP:
@@ -178,11 +194,15 @@ while True:
 		# Score
 		pipe_score_check()
 		score_display('main_game')
-	else:
+	elif is_dead:
 		# Game Over
 		screen.blit(game_over_surface,game_over_rect)
 		high_score = update_score(score,high_score)
 		score_display('game_over')
+	else:
+		# Game Start
+		screen.blit(game_start_surface,game_start_rect)
+		high_score = update_score(score,high_score)
 
 	pygame.display.update()
 	clock.tick(120)

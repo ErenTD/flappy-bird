@@ -99,7 +99,7 @@ clock = pygame.time.Clock()
 # Game Variables
 gravity = config.GRAVITY
 bird_movement = 0
-game_active = True
+game_active = False
 score = 0
 high_score = 0
 can_score = True

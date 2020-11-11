@@ -20,6 +20,13 @@ night = 'assets/sprites/background-night.png'
 message = 'assets/sprites/message.png'
 base = 'assets/sprites/base.png'
 gameover = 'assets/sprites/gameover.png'
+newbest = 'assets/sprites/new.png'
+
+medals = {	'none': 'assets/sprites/medalscreen-none.png',
+			'bronze': 'assets/sprites/medalscreen-bronze.png',
+			'silver': 'assets/sprites/medalscreen-silver.png',
+			'gold': 'assets/sprites/medalscreen-gold.png',
+			'plat': 'assets/sprites/medalscreen-plat.png'}
 
 font = 'assets/04B_19.ttf'
 

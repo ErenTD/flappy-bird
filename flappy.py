@@ -66,18 +66,27 @@ def score_display(game_state):
 		score_rect = score_surface.get_rect(center = (144,50))
 		screen.blit(score_surface,score_rect)
 	if game_state == 'game_over':
-		# TODO: Better game over screen
-		score_surface = game_font.render(f'Score: {int(score)}',True,(255,255,255))
-		score_rect = score_surface.get_rect(center = (144,50))
+		if score < 10: screen.blit(no_medal_surface,no_medal_rect)
+		if 10 <= score < 20: screen.blit(bronze_medal_surface,bronze_medal_rect)
+		if 20 <= score < 30: screen.blit(silver_medal_surface,silver_medal_rect)
+		if 30 <= score < 100: screen.blit(gold_medal_surface,gold_medal_rect)
+		if score >= 100: screen.blit(plat_medal_surface,plat_medal_rect)
+		if new_high: screen.blit(new_best_surface,new_best_rect)
+
+		score_surface = game_font.render(f'{score}',True,(255,255,255))
+		score_rect = score_surface.get_rect(midright = (237,242))
 		screen.blit(score_surface,score_rect)
 
-		high_score_surface = game_font.render(f'High Score: {int(high_score)}',True,(255,255,255))
-		high_score_rect = high_score_surface.get_rect(center = (144,425))
+		high_score_surface = game_font.render(f'{high_score}',True,(255,255,255))
+		high_score_rect = high_score_surface.get_rect(midright = (237,282))
 		screen.blit(high_score_surface,high_score_rect)
 
+
 def update_score(score, high_score):
+	global new_high
 	if score > high_score:
 		high_score = score
+		new_high = True
 	return high_score
 
 def pipe_score_check():
@@ -104,6 +113,7 @@ score = 0
 high_score = 0
 can_score = True
 is_dead = False
+new_high = False
 
 # Assets
 game_font = pygame.font.Font(assets.font,20)
@@ -130,10 +140,23 @@ pygame.time.set_timer(SPAWNPIPE,config.PIPE_SPAWN_INTERVAL)
 pipe_height = config.PIPE_SPAWN_LOCATIONS
 
 game_over_surface = pygame.image.load(assets.gameover).convert_alpha()
-game_over_rect = game_over_surface.get_rect(center = (144,256))
+game_over_rect = game_over_surface.get_rect(center = (144,150))
 
 game_start_surface = pygame.image.load(assets.message).convert_alpha()
 game_start_rect = game_start_surface.get_rect(center = (144,256))
+
+no_medal_surface = pygame.transform.scale2x(pygame.image.load(assets.medals['none'])).convert_alpha()
+no_medal_rect = no_medal_surface.get_rect(center = (144,256))
+bronze_medal_surface = pygame.transform.scale2x(pygame.image.load(assets.medals['bronze'])).convert_alpha()
+bronze_medal_rect = bronze_medal_surface.get_rect(center = (144,256))
+silver_medal_surface = pygame.transform.scale2x(pygame.image.load(assets.medals['silver'])).convert_alpha()
+silver_medal_rect = silver_medal_surface.get_rect(center = (144,256))
+gold_medal_surface = pygame.transform.scale2x(pygame.image.load(assets.medals['gold'])).convert_alpha()
+gold_medal_rect = gold_medal_surface.get_rect(center = (144,256))
+plat_medal_surface = pygame.transform.scale2x(pygame.image.load(assets.medals['plat'])).convert_alpha()
+plat_medal_rect = plat_medal_surface.get_rect(center = (144,256))
+new_best_surface = pygame.transform.scale2x(pygame.image.load(assets.newbest)).convert()
+new_best_rect = new_best_surface.get_rect(center = (180,263))
 
 flap_sound = pygame.mixer.Sound(assets.sounds['wing'])
 hit_sound = pygame.mixer.Sound(assets.sounds['hit'])
@@ -203,6 +226,7 @@ while True:
 		# Game Start
 		screen.blit(game_start_surface,game_start_rect)
 		high_score = update_score(score,high_score)
+		new_high = False
 
 	pygame.display.update()
 	clock.tick(120)

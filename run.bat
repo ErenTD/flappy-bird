@@ -1,0 +1,2 @@
+python flappy.py
+EXIT

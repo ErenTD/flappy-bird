@@ -98,16 +98,16 @@ high_score = 0
 can_score = True
 
 # Assets
-game_font = pygame.font.Font('assets/04B_19.ttf',20)
+game_font = pygame.font.Font(assets.font,20)
 
-bg_surface = pygame.image.load(assets.bg).convert()
+bg_surface = pygame.image.load(assets.background).convert_alpha()
 
-floor_surface = pygame.image.load('assets/sprites/base.png').convert()
+floor_surface = pygame.image.load(assets.base).convert()
 floor_x_pos = 0
 
-bird_downflap = pygame.image.load(assets.d).convert_alpha()
-bird_midflap = pygame.image.load(assets.m).convert_alpha()
-bird_upflap = pygame.image.load(assets.u).convert_alpha()
+bird_downflap = pygame.image.load(assets.downflap).convert_alpha()
+bird_midflap = pygame.image.load(assets.midflap).convert_alpha()
+bird_upflap = pygame.image.load(assets.upflap).convert_alpha()
 bird_frames = [bird_downflap,bird_midflap,bird_upflap]
 bird_index = 0
 bird_surface = bird_frames[bird_index]
@@ -121,12 +121,12 @@ SPAWNPIPE = pygame.USEREVENT
 pygame.time.set_timer(SPAWNPIPE,config.PIPE_SPAWN_INTERVAL)
 pipe_height = config.PIPE_SPAWN_LOCATIONS
 
-game_over_surface = pygame.image.load('assets/sprites/message.png').convert_alpha()
+game_over_surface = pygame.image.load(assets.message).convert_alpha()
 game_over_rect = game_over_surface.get_rect(center = (144,256))
 
-flap_sound = pygame.mixer.Sound('assets/audio/wing.wav')
-death_sound = pygame.mixer.Sound('assets/audio/hit.wav')
-score_sound = pygame.mixer.Sound('assets/audio/point.wav')
+flap_sound = pygame.mixer.Sound(assets.sounds['wing'])
+death_sound = pygame.mixer.Sound(assets.sounds['hit'])
+score_sound = pygame.mixer.Sound(assets.sounds['point'])
 
 # Game loop
 while True:
@@ -155,7 +155,13 @@ while True:
 				bird_index = 0
 			bird_surface,bird_rect = bird_animation()
 
+	# Background
 	screen.blit(bg_surface,(0,0))
+
+	# Floor
+	floor_x_pos -= 1
+	draw_floor()
+	if floor_x_pos <= -288: floor_x_pos = 0
 
 	if game_active:
 		# Bird
@@ -173,14 +179,10 @@ while True:
 		pipe_score_check()
 		score_display('main_game')
 	else:
+		# Game Over
 		screen.blit(game_over_surface,game_over_rect)
 		high_score = update_score(score,high_score)
 		score_display('game_over')
-
-	# Floor
-	floor_x_pos -= 1
-	draw_floor()
-	if floor_x_pos <= -288: floor_x_pos = 0
 
 	pygame.display.update()
 	clock.tick(120)

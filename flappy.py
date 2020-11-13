@@ -185,7 +185,8 @@ while True:
 				game_active = True
 				pipe_list.clear()
 				bird_rect.center = (50,256)
-				bird_movement = 0
+				bird_movement = -config.BIRD_JUMP_STRENGTH
+				flap_sound.play()
 				score = 0
 			if event.key == pygame.K_SPACE and game_active == False and is_dead:
 				is_dead = False

@@ -42,12 +42,12 @@ def check_collision(pipes):
 		if bird_rect.colliderect(pipe):
 			die()
 			return False
-	if bird_rect.bottom >= 450:
-		die()
-		return False
-	if bird_rect.top <= -50 and 45 < pipe.centerx < 55:
-		die()
-		return False
+		if bird_rect.bottom >= 450:
+			die()
+			return False
+		if bird_rect.top <= 0 and 45 < pipe.centerx < 55:
+			die()
+			return False
 	return True
 
 def rotate_bird(bird):

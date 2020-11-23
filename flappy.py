@@ -29,6 +29,7 @@ def draw_pipes(pipes):
 			screen.blit(flip_pipe,pipe)
 
 def die():
+	global can_score, is_dead
 	hit_sound.play()
 	die_sound.play()
 	if config.MUSIC:
@@ -37,7 +38,6 @@ def die():
 	is_dead = True
 
 def check_collision(pipes):
-	global can_score, is_dead
 	for pipe in pipes:
 		if bird_rect.colliderect(pipe):
 			die()

@@ -1,2 +1,2 @@
-python flappy.py
+pythonw flappy.py
 EXIT

@@ -36,7 +36,8 @@ sounds = {	'hit': 'assets/audio/hit.wav',
 			'die': 'assets/audio/die.wav',
 			'point': 'assets/audio/point.wav',
 			'swoosh': 'assets/audio/swoosh.wav',
-			'wing': 'assets/audio/wing.wav'}
+			'wing': 'assets/audio/wing.wav',
+			'music': 'assets/audio/music.wav'}
 
 # Set bird color
 upflap = yellowbird_upflap

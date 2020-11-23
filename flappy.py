@@ -28,26 +28,25 @@ def draw_pipes(pipes):
 			flip_pipe = pygame.transform.flip(pipe_surface,False,True)
 			screen.blit(flip_pipe,pipe)
 
+def die():
+	hit_sound.play()
+	die_sound.play()
+	if config.MUSIC:
+		music.stop()
+	can_score = True
+	is_dead = True
+
 def check_collision(pipes):
 	global can_score, is_dead
 	for pipe in pipes:
 		if bird_rect.colliderect(pipe):
-			hit_sound.play()
-			die_sound.play()
-			can_score = True
-			is_dead = True
+			die()
 			return False
 	if bird_rect.bottom >= 450:
-		hit_sound.play()
-		die_sound.play()
-		can_score = True
-		is_dead = True
+		die()
 		return False
 	if bird_rect.top <= -50 and 45 < pipe.centerx < 55:
-		hit_sound.play()
-		die_sound.play()
-		can_score = True
-		is_dead = True
+		die()
 		return False
 	return True
 
@@ -168,6 +167,7 @@ hit_sound = pygame.mixer.Sound(assets.sounds['hit'])
 score_sound = pygame.mixer.Sound(assets.sounds['point'])
 swoosh_sound = pygame.mixer.Sound(assets.sounds['swoosh'])
 die_sound = pygame.mixer.Sound(assets.sounds['die'])
+music = pygame.mixer.Sound(assets.sounds['music'])
 
 # Game loop
 while True:
@@ -187,6 +187,8 @@ while True:
 				bird_rect.center = (50,256)
 				bird_movement = -config.BIRD_JUMP_STRENGTH
 				flap_sound.play()
+				if config.MUSIC:
+					music.play(-1)
 				score = 0
 			if event.key == pygame.K_SPACE and game_active == False and is_dead:
 				is_dead = False

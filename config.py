@@ -5,6 +5,9 @@ PIPE_COLOR = 'GREEN'
 BIRD_COLOR = 'YELLOW'
 TIME = 'DAY'
 
+# Sound options
+MUSIC = True
+
 # Bird physics
 #
 # Don't touch if you don't know what you're doing!

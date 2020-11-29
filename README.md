@@ -2,6 +2,11 @@
 ###### A pygame rewrite of the once popular game, flappy bird.
 
 ## Installing
+#### The easiest way (manual updates)
+* NOTE: This only works for Windows x64.
+* Go to releases, and download the FlappyBird.exe of the latest release.
+* You don't need to do anything else, jou can double click to run.
+
 #### The easier way (manual updates)
 * Click "Download as ZIP"
 * If you don't have python installed, install python from python.org
@@ -28,5 +33,5 @@
 	* The other variables in the config are about difficulty and physics. Their name is pretty self-explanatory. It is recommended you don't touch them.
 
 ## Updating
-* If you installed the manual updates way, you need to delete the game folder and go through the installation process again.
+* If you installed the manual updates ways, you need to delete the game and go through the installation process again.
 * If you installed the auto updates way, cd into the game folder via a terminal window and type: _git pull_
